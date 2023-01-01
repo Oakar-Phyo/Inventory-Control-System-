@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="Dashboard">
+  <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+  <title>PROACTIVE</title>
+
+  <!-- Favicons -->
+  <link th:href="@{/img/proactive.jpg}" rel="icon">
+  <link th:href="@{/img/apple-touch-icon.png}" rel="apple-touch-icon">
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{/lib/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+  <!--external css-->
+  <link th:href="@{/lib/font-awesome/css/font-awesome.css}" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="css/zabuto_calendar.css">
+  <link rel="stylesheet" type="text/css" href="lib/gritter/css/jquery.gritter.css" />
+  <!-- Custom styles for this template -->
+  <link th:href="@{/css/style.css}" rel="stylesheet">
+  <link th:href="@{/css/style-responsive.css}" rel="stylesheet">
+  <script th:src="@{/lib/chart-master/Chart.js}"></script>
+
+</head>
+
+<body>
+  <section id="container">
+    <!-- **********************************************************************************************************************************************************
+        TOP BAR CONTENT & NOTIFICATIONS
+        *********************************************************************************************************************************************************** -->
+    <!--header start-->
+    <div th:replace="fragments/IVCS_header::IVCSheader"></div>
+    
+    <aside>
+    <div th:replace="fragments/IVCS_sidebar::IVCSsidebar"></div>
+    
+   
+  </aside>
+    <!--sidebar end-->
+    <!-- **********************************************************************************************************************************************************
+        MAIN CONTENT
+        *********************************************************************************************************************************************************** -->
+    <!--main content start-->
+    <section id="main-content">
+      <section class="wrapper site-min-height">
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 cardHeader"><b >Supplier SetUp</b></h1>
+
+          </div>
+
+
+
+          <!-- Content Row 1-->
+
+          <div class="row">
+
+            <div class="card-body">
+
+
+              <div class="card-body formBorder" style="background-color: white;">
+
+                <div class="row">
+                  <div class="col-md-2"></div>
+                  <div class="col-md-8">
+                    <br>
+                    <br>
+                    <p  style="color: blue"  th:text="${msg}" th:if="${msg}"></p>
+                    <p  style="color: red" th:text="${err}" th:if="${err}"></p>
+                    
+                      <form action="#" th:action="@{/addSupplier}" th:object="${newSupplier}" method="POST">
+                    <div class="form-group row">
+                      
+                      <label style="font-weight: bold;" for="supplierCode" class="col-sm-3 col-form-label">Supplier Code</label>
+                      <div class="col-sm-6">
+                        <input type="text" th:field="*{supplierCode}" class="form-control" id="supplierCode" placeholder="Supplier Code" readonly="true">
+                      </div>
+                      <p th:if="${#fields.hasErrors('supplierCode')}" th:errors="*{supplierCode}" style="color: red">SupplierCode error</p>
+                    </div>
+                    <div class="form-group row">
+                      <label style="font-weight: bold;" for="supplierName" class="col-sm-3 col-form-label">Supplier Name</label>
+                      <div class="col-sm-6">
+                        <input type="text" th:field="*{name}" class="form-control" id="supplierName" placeholder="Name">
+                      </div>
+                       <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red">Name error</p>
+                    </div>
+                    <div class="form-group row">
+                      <label style="font-weight: bold;" for="phoneNo" class="col-sm-3 col-form-label">Phone No</label>
+                      <div class="col-sm-6">
+                        <input type="number" th:field="*{phone}" class="form-control" id="phoneNo" placeholder="Phone No" >
+                      </div>
+                      <p th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" style="color: red">Phone No. error</p>
+                    </div>
+                    <div class="form-group row">
+                      <label style="font-weight: bold;" for="address"
+                        class="col-sm-3 col-form-label">Address</label>
+                      <div class="col-sm-6">
+                        <input type="text" th:field="*{address}" class="form-control" id="address" placeholder="Address">
+                      </div>
+                      <p th:if="${#fields.hasErrors('address')}" th:errors="*{address}" style="color: red">Address error</p>
+                    </div> 
+                    <br>
+                  
+
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">&nbsp;</label>
+                      <div class="col-sm-9">
+                        <input type="submit" class="btn btn-success" value="Add" style="width: 100px;">
+                   
+                      </div>
+
+                    </div>
+                    </form>
+                    
+                  </div>
+                  <div class="col-md-2"></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Content Row 2-->
+          <div class="row">
+
+            <div class="card-body">
+             
+                            
+              <div class="card-body" style="background-color: #ffffff;">
+                  <div class="row">
+                    <div class="col-md-12 mt">
+                      <div class="content-panel">
+                        <table class="table table-hover">
+                          <div class="col-md-12 " style="padding-right: 0;">
+                            <h4><b>Supplier List</b></h4>
+                          </div><br>
+                          <br>
+                          <br>
+                          <thead style="background-color: rgb(206, 209, 209) ;" >
+                            <tr style="font-size: medium;font-family :'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;" > 
+                               <th>No</th>
+                              <th>Supplier Code</th>
+                              <th>Supplier Name</th>
+                              <th>Phone No</th>
+                              <th>Address</th>
+                              <th class="col-md-3 "  >Action</th>   
+                            </tr>
+                          </thead>
+                          <tbody>
+                          	 <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-8">
+                              <tr th:each="supp,iter: ${listSupplier}">
+                               
+								<td th:text="${iter.index + 1}"></td>
+								<td th:text="${supp.supplierCode}"></td>
+								<td th:text="${supp.name}"></td>
+								<td th:text="${supp.phone}"></td>
+																
+                                <td th:text="${supp.address}"></td>
+                                
+                                <td>
+                                  <div class="row">
+                                    <div class="col-md-5">
+                                      <a th:href="@{/IVCS_SUP_03/{id}(id=${supp.id})}" class="btn btn-info" style="width: 100px;">
+                                        Update</a>
+                                    </div>
+                                    <div class="col-md-5">
+                                    <a th:href="@{/deleteSupplier/{id}(id=${supp.id})}" class="btn btn-block btn-danger"
+									onclick="return confirm('Are you sure to delete?')">Delete </a>
+                                     
+                                    </div>
+                                  </div> 
+                                </td>
+                              </tr>
+                              
+                            </div>
+                        
+                          </div>
+                            
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <!-- /col-md-12 -->
+                  </div>
+               
+              </div>
+
+            </div>
+          </div>
+        </div><!-- End of Page Content -->
+  </section>
+  <!-- /wrapper -->
+</section>
+    <!--footer start-->
+    <div th:replace="fragments/IVCS_footer::IVCSfooter"></div>
+    <!--footer end-->
+  </section>
+  <!-- js placed at the end of the document so the pages load faster -->
+ <script th:src="@{/lib/jquery/jquery.min.js}"></script>
+
+  <script th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
+  <script class="include" type="text/javascript" th:src="@{/lib/jquery.dcjqaccordion.2.7.js}"></script>
+  <script th:src="@{/lib/jquery.scrollTo.min.js}"></script>
+   <script th:src="@{/lib/jquery.nicescroll.js}" type="text/javascript"></script>
+  <!--common script for all pages-->
+  <script th:src="@{/lib/common-scripts.js}"></script>
+  <!--script for this page-->
+
+</body>
+
+</html>

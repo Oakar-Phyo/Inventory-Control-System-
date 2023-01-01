@@ -1,0 +1,95 @@
+<div th:fragment="IVCSsidebar">
+
+
+ <aside >
+      <div id="sidebar" class="nav-collapse ">
+      <!-- sidebar menu start-->
+       <ul class="sidebar-menu" id="nav-accordion">
+    <p class="centered"><a th:href="@{/IVCS_PRF_01}"><img th:src="@{/img/admin profile.jpg}" class="img-circle" width="80"></a></p>
+    <h5 class="centered" sec:authorize="isAuthenticated()"><span sec:authentication="name">User Name</span></h5>
+    <li class="nav-item active">
+      <a  th:href="@{/IVCS_DSH_01}">
+        <i class="fa fa-dashboard"></i>
+        <span>Dashboard</span>
+        </a>
+    </li>
+    <li class="sub-menu" sec:authorize="hasAnyRole('System Administration','ADMIN')">
+     <a class="nav-link collapsed"  data-toggle="collapse" data-target="#administration"
+           aria-expanded="true" aria-controls="administration">
+            <i class="fa fa-user"></i>
+        <span>System Administration</span>
+        </a>
+     
+      <ul class="sub" id="administration" aria-labelledby="headingUtilities"
+             data-parent="#nav-accordion">
+        <li><a th:href="@{/IVCS_ROL_01}">User Role </a></li>
+        <li><a th:href="@{/IVCS_USR_01}">User Setup</a></li> 
+      </ul>
+    
+    </li>
+    <li class="sub-menu" sec:authorize="hasAnyRole('Master Setup','ADMIN')">
+      <a class="nav-collapsed" data-toggle="collapse" data-target="#setup"
+           aria-expanded="true" aria-controls="setup">
+        <i class="fa fa-cogs"></i>
+        <span>Master Setup</span>
+        </a>
+      
+      <ul class="sub" id="setup"  aria-labelledby="headingUtilities"
+             data-parent="#nav-accordion">
+        <li><a th:href="@{/IVCS_SUP_01}">Supplier</a></li>
+        <li><a th:href="@{/IVCS_WAR_01}">Warehouse</a></li>
+        <li><a th:href="@{/IVCS_UNI_01}">Unit</a></li>
+        <li><a th:href="@{/IVCS_STK_01}">Stock</a></li>
+        <li><a th:href="@{/IVCS_CUY_01}">Currency</a></li>
+        <li><a th:href="@{/IVCS_DPT_01}">Department</a></li>
+       
+      </ul>
+     
+    </li>
+    <li class="sub-menu" sec:authorize="hasAnyRole('Inventory Transaction','ADMIN')">
+<a class="nav-link collapsed"  data-toggle="collapse" data-target="#transaction"
+           aria-expanded="true" aria-controls="transaction">       
+            <i class="fa fa-book"></i>
+        <span>Inventory Transaction</span>
+        </a>
+      <ul class="sub" id="transaction" aria-labelledby="headingUtilities"
+             data-parent="#nav-accordion">
+        <li><a th:href="@{/IVCS_IRE_02}">Inventory Receive</a></li>
+        <li><a th:href="@{/IVCS_IRR_02}">Inventory Receive Return</a></li>
+        <li><a th:href="@{/IVCS_ISS_02}">Issue</a></li>
+        <li><a th:href="@{/IVCS_ISR_02}">Issue Return</a></li>
+        <li><a th:href="@{/IVCS_TRS_02}">Warehouse Transfer</a></li>
+        <li><a th:href="@{/IVCS_ADJ_02}">Adjustment</a></li>
+        <li><a th:href="@{/IVCS_DMG_02}">Damage</a></li>
+       
+      </ul>
+    </li>
+
+    
+    <li class="sub-menu" sec:authorize="hasAnyRole('Inventory Report','ADMIN')">
+<a class="nav-link collapsed"  data-toggle="collapse" data-target="#report"
+           aria-expanded="true" aria-controls="report">     
+                   <i class=" fa fa-bar-chart-o"></i>
+        <span>Inventory Report</span>
+        </a>
+      <ul class="sub" id="report" aria-labelledby="headingUtilities"
+             data-parent="#nav-accordion" >
+        <li><a th:href="@{/IVCS_IRE_04}">Inventory Receive Report</a></li>
+        <li><a th:href="@{/IVCS_IRR_04}">Inventory Receive Return Report</a></li>
+        <li><a th:href="@{/IVCS_ISS_04}">Issue Report</a></li>
+        <li><a th:href="@{/IVCS_ISR_04}">Issue Return Report</a></li>
+        <li><a th:href="@{/IVCS_TRS_04}">Warehouse Transfer Report</a></li>
+        <li><a th:href="@{/IVCS_ADJ_04}">Adjustment Report</a></li>
+        <li><a th:href="@{/IVCS_DMG_04}">Damage Report</a></li>
+
+      </ul>
+    </li>
+
+    
+   
+  </ul>
+  </div>
+    </aside>
+    <!--sidebar end-->
+
+</div>

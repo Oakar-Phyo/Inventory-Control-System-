@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="Dashboard">
+  <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+  <title>PROACTIVE</title>
+
+  <!-- Favicons -->
+  <link th:href="@{/img/proactive.jpg}" rel="icon">
+  <link th:href="@{/img/apple-touch-icon.png}" rel="apple-touch-icon">
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{/lib/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+  <!--external css-->
+  <link th:href="@{/lib/font-awesome/css/font-awesome.css}" rel="stylesheet" />
+  <!-- Custom styles for this template -->
+  <link th:href="@{/css/style.css}" rel="stylesheet">
+  <link th:href="@{/css/style-responsive.css}" rel="stylesheet">
+  
+</head>
+
+<body>
+  <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+  <div id="login-page">
+    <div class="container">
+    
+      <form class="form-login"  th:action="@{/login}" method="post">
+      
+        <h2 class="form-login-heading">sign in now</h2>
+			<div style="text-align: center;margin-top: 20px;" class="alert alert-danger" th:if="${error}" th:text=${error}>
+			
+			</div>
+			<div style="text-align: center;margin-top: 20px;" class="alert alert-success" th:if="${success}" th:text=${success}>
+			
+			</div>
+        <div class="login-wrap">
+          <input type="text" name="username" class="form-control" placeholder="User Email" autofocus>
+          <br>
+          <input type="password" name="password" class="form-control" placeholder="Password">
+          <br/>
+          <input type="submit" value="SIGN IN" class="btn btn-theme btn-block">
+         
+          <hr>
+          
+          
+        </div>
+       
+      </form>
+    </div>
+  </div>
+  <!-- js placed at the end of the document so the pages load faster -->
+  <script th:src="@{/lib/jquery/jquery.min.js}"></script>
+  <script th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
+  <!--BACKSTRETCH-->
+  <!-- You can use an image of whatever size. This script will stretch to fit in any screen size.-->
+  <script type="text/javascript" th:src="@{/lib/jquery.backstretch.min.js}"></script>
+  <script>
+    $.backstretch("img/test.jpg", {
+      speed: 500
+    });
+  </script>
+</body>
+
+</html>

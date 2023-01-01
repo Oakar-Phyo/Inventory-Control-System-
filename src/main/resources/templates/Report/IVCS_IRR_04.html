@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="Dashboard">
+  <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+  <title>PROACTIVE</title>
+
+  <!-- Favicons -->
+  <link th:href="@{/img/proactive.jpg}" rel="icon">
+  <link th:href="@{/img/apple-touch-icon.png}" rel="apple-touch-icon">
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{/lib/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+  <!--external css-->
+  <link th:href="@{/lib/font-awesome/css/font-awesome.css}" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="css/zabuto_calendar.css">
+  <link rel="stylesheet" type="text/css" href="lib/gritter/css/jquery.gritter.css" />
+  <!-- Custom styles for this template -->
+  <link th:href="@{/css/style.css}" rel="stylesheet">
+  <link th:href="@{/css/style-responsive.css}" rel="stylesheet">
+  <script th:src="@{/lib/chart-master/Chart.js}"></script>
+
+</head>
+
+<body>
+  <section id="container">
+    <!-- **********************************************************************************************************************************************************
+        TOP BAR CONTENT & NOTIFICATIONS
+        *********************************************************************************************************************************************************** -->
+    <!--header start-->
+     <div th:replace="fragments/IVCS_header::IVCSheader"></div>
+    
+    <aside>
+    <div th:replace="fragments/IVCS_sidebar::IVCSsidebar"></div>   
+   
+  </aside>
+    <!--sidebar end-->
+    <!-- **********************************************************************************************************************************************************
+        MAIN CONTENT
+        *********************************************************************************************************************************************************** -->
+    <!--main content start-->
+    <section id="main-content">
+      <section class="wrapper site-min-height">
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 cardHeader">Inventory Received Return Report</h1>
+
+          </div>
+
+
+
+          <!-- Content Row -->
+              
+                <div class="row">
+                    <div class="col-md-12">
+                      <div class="content-panel">
+                      <form th:action="@{/receiveRturnReport}">
+                      <div class=" row" style="padding-left: 2em;">
+                        <div class="form-row">
+                        <input type="hidden" name="pageNumber" value="1">
+                          <div class="form-group col-md-2">
+                            <label for="inputStockcode">Stock Code</label>
+                            <input type="text"  class="form-control" id="inputStockcode" placeholder="Stock Code" name="stockCode">
+                          </div>
+                          <div class="form-group col-md-2">
+                            <label for="inputWarehousecode">Warehouse Code</label>
+                            <input type="text"  class="form-control" id="inputWarehousecode" placeholder="Warehouse Code" name="warehouseCode">
+                          </div>
+      
+                          <div class="form-group col-md-2">
+                            <label for="inputStartDate">Start Date</label>
+                            <input type="date"  class="form-control" id="inputStartDate" name="startDate">
+                          </div>
+      
+                          <div class="form-group col-md-2">
+                            <label for="inputEndDate">End Date</label>
+                            <input type="date"  class="form-control" id="inputEndDate" name="endDate">
+                          </div>
+      
+                          <div class="form-group col-md-3" style="margin-top: 24px;"> 
+                           
+                            <input value="Search" style="width: 100px;" th:href="@{/IVCS_IRR_04}" class="btn btn-success  " type="submit">
+                          
+                            <a style="width: 100px;" th:href="@{/IVCS_IRR_04}"  class="btn btn-danger  " type="reset">Cancel</a>
+                            
+                          </div>
+                     
+                        </div>
+                      </div>
+      </form>
+                   <br/>
+                   <br/>
+
+
+                 <div class="form-group text-right row">
+                   <label class="col-sm-4 col-form-label">&nbsp;</label>
+                  <div class="col-sm-8">
+                     <a style="width: 100px;margin-right: 1em;" th:href="@{/IVCS_IRR_04/reportExport/excel}" class="btn  btn-info">Export Excel</a>
+                      <a style="width: 100px;margin-right: 1em;" th:href="@{/IVCS_IRR_04/reportExport/pdf}" class="btn  btn-info">Export PDF</a>
+                    </div>
+                 </div>
+                      
+                      <!-- table -->
+                      <div class="table-responsive">
+                        <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
+                          <thead style="background-color: rgb(206, 209, 209) ;" >
+                            <tr style="font-size: medium;font-family :'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;" > 
+                              <th>No</th>
+                              <th >Received Return No</th>
+                              <th>Stock Code</th>
+                              <th>Stock Name</th>
+                              <th>Unit</th>
+                              <th>Warehouse</th>
+                              <th>Supplier</th>
+                              <th  style="text-align: right;">Received Quantity</th>
+                              <th  style="text-align: right;">Return Quantity</th>
+                              <th>Date</th>
+                              <th  style="text-align: right;">Price</th>
+                              <th  style="text-align: right;">Amount</th>
+
+                            </tr>
+                          </thead>
+      
+                          <tbody>
+                            <tr th:each="list, itr:${receiveRetList}">
+                              <td th:text="${itr.index+1}">1</td>
+                              <td th:text="${list.code}">ST001</td>
+                              <td th:text="${list.stock.stockCode}">ST001</td>
+                              <td th:text="${list.stock.name}">GOOD Morning</td>
+                              <td th:text="${list.stock.unit.name}">U Mg</td>
+                              <td th:text="${list.warehouse.name}">Insein Warehouse</td>
+                              <td th:text="${list.supplier.name}">Cs</td>
+                              <td  style="text-align: right;" th:text="${list.stockIn.qty}"></td>
+                              <td  style="text-align: right;"  th:text="${list.returnqty}"></td>
+                              <td style="width: 100px;" th:text="${list.date}"></td>
+                              <td  style="text-align: right;" th:text="${list.price}"></td>
+                              <td  style="text-align: right;" th:text="${list.subTotalAmount}"></td>
+      
+      
+                            </tr>
+      
+                            <tbody>
+      
+                          </tbody>
+                        </table>
+                      <!-- Pagination -->
+                        <div class="row">
+                  <div class="col-sm-12 col-md-8"></div>
+                  <div class="col-sm-12 col-md-4">
+                    <ul class="pagination justify-content-end">
+                      <li class="paginate_button page-item previous" id="dataTable_previous">
+                        <a th:if="${current>1}" th:href="@{/receiveRturnReport/(pageNumber=${current-1},stockCode=${stockCode},warehouseCode=${warehouseCode},startDate=${startDate},endDate=${endDate})}" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                        <a th:unless="${current>1}" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                      </li>
+                      <li class="paginate_button page-item" th:each="i:${#numbers.sequence(1,totalPage)}">
+                        <a th:if="${i!=current}" th:href="@{/receiveRturnReport/(pageNumber=${i},stockCode=${stockCode},warehouseCode=${warehouseCode},startDate=${startDate},endDate=${endDate})}" aria-controls="dataTable" data-dt-idx="1" tabindex="0" th:text="${i}" class="page-link">1</a>
+                        <a th:unless="${i!=current}" aria-controls="dataTable" data-dt-idx="1" tabindex="0" th:text="${i}" class="page-link">1</a>
+                      </li>
+                      <li class="paginate_button page-item next" id="dataTable_next">
+                      <a th:if="${current<totalPage}" th:href="@{/receiveRturnReport/(pageNumber=${current+1},stockCode=${stockCode},warehouseCode=${warehouseCode},startDate=${startDate},endDate=${endDate})}" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a>
+                      <a th:unless="${current<totalPage}" aria-controls="dataTable" data-dt-idx="7" tabindex="0" class="page-link">Next</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                    
+      </div>
+      </div>
+                  </div>
+                  </div>
+       
+        </div><!-- End of Page Content -->
+  </section>
+  <!-- /wrapper -->
+</section>
+    <!-- /MAIN CONTENT -->
+    <!--main content end-->
+    
+    <!--footer start-->
+    <div th:replace="fragments/IVCS_footer::IVCSfooter"></div> 
+    <!--footer end-->
+    
+  </section>
+  <!-- js placed at the end of the document so the pages load faster -->
+  <script src="lib/jquery/jquery.min.js"></script>
+
+  <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+  <script class="include" type="text/javascript" src="lib/jquery.dcjqaccordion.2.7.js"></script>
+  <script src="lib/jquery.scrollTo.min.js"></script>
+  <script src="lib/jquery.nicescroll.js" type="text/javascript"></script>
+  <!--common script for all pages-->
+  <script src="lib/common-scripts.js"></script>
+  <!--script for this page-->
+  <script src="header.js"></script>
+  <script src="sidebar.js"></script>
+  <script src="footer.js"></script>
+
+</body>
+
+</html>

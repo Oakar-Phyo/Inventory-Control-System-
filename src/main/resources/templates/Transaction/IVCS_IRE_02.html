@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="Dashboard">
+  <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+  <title>PROACTIVE</title>
+
+  <!-- Favicons -->
+  <link th:href="@{/img/proactive.jpg}" rel="icon">
+  <link th:href="@{/img/apple-touch-icon.png}" rel="apple-touch-icon">
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{/lib/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+  <!--external css-->
+  <link th:href="@{/lib/font-awesome/css/font-awesome.css}" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="css/zabuto_calendar.css">
+  <link rel="stylesheet" type="text/css" href="lib/gritter/css/jquery.gritter.css" />
+  <!-- Custom styles for this template -->
+  <link th:href="@{/css/style.css}" rel="stylesheet">
+  <link th:href="@{/css/style-responsive.css}" rel="stylesheet">
+  <script th:src="@{/lib/chart-master/Chart.js}"></script>
+</head>
+
+<body>
+  <section id="container">
+    <!-- **********************************************************************************************************************************************************
+        TOP BAR CONTENT & NOTIFICATIONS
+        *********************************************************************************************************************************************************** -->
+    <!--header start-->
+     <div th:replace="fragments/IVCS_header::IVCSheader"></div>
+    
+    <aside>
+    <div th:replace="fragments/IVCS_sidebar::IVCSsidebar"></div>
+    
+   
+  </aside>
+    <!--sidebar end-->
+    <!-- **********************************************************************************************************************************************************
+        MAIN CONTENT
+        *********************************************************************************************************************************************************** -->
+    <!--main content start-->
+    <section id="main-content">
+      <section class="wrapper site-min-height">
+        <h3> Inventory Receive Transaction List</h3>
+        <div class="container-fluid">
+
+          <!-- Content Row -->
+
+          <div class="row">
+
+            <div class="card-body">
+             
+              <br>              
+              <div class="card-body" style="background-color: #ffffff;">
+                  <div class="row">
+                    <div class="col-md-12 mt">
+                      <div class="content-panel">
+                        <table class="table table-hover">
+                          <div class="col-md-12 " style="padding-right: 0;">
+                            <a class="btn btn-success" th:href="@{/IVCS_IRE_01}" style="width: 100px;">Add </a>
+                          </div>
+                         <br><br>
+                           <hr>
+                          
+                          <thead style="background-color: rgb(206, 209, 209) ;" >
+                            <tr style="font-size: medium;font-family :'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;" > 
+                              <th>No</th>
+                              <th>Receive No</th>
+                              <th>Warehouse Code</th>
+                              <th>Warehouse Name</th>
+                              <th>Supplier Code</th>
+                              <th>Supplier Name</th>
+                              <th>Currency</th>
+                              <th>Exchange Rate</th>
+                              <th>Date</th>
+                            
+                              <th class="text-center" >Action</th>   
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr th:each="list, itr:${stockInList}">
+                              <td th:text="${itr.index+1}"></td>
+                              <td th:text="${list.code}">REC001</td>
+                              <td th:text="${list.warehouse.warehouseCode}">WAR001</td>
+                              <td th:text="${list.warehouse.name}">Insein</td>
+                              <td th:text="${list.supplier.supplierCode}">SUP001</td>
+                              <td th:text="${list.supplier.name}">U Mg</td>
+                              <td th:text="${list.currency.sname}">MMK</td>
+                              <td th:text="${list.exchangeRate}">1.00</td>
+                              <td th:text="${list.date}">12-2-2016</td>                             
+                              <td>
+                                    <a th:href="@{/IVCS_IRE_05/{code}(code=${list.code})}" class="btn  btn-warning"  style="width: 100px;" id="">
+                                      View</a>
+                                                            
+                                </td>
+                            </tr>
+                          </tbody>
+                        </table>
+
+                           <!-- pagination -->
+                <div class="row">
+                  <div class="col-sm-12 col-md-9"></div>
+                  <div class="col-sm-12 col-md-3">
+                    <ul class="pagination justify-content-end">
+                     <li class="paginate_button page-item next"
+												id="dataTable_next"><a th:if="${current>1}"
+												th:href="@{/recivePage/{pageNumber}(pageNumber=${current-1})}"
+												aria-controls="dataTable" data-dt-idx="7" tabindex="0"
+												class="page-link">Previous</a> <a th:unless="${current>1}"
+												aria-controls="dataTable" data-dt-idx="7" tabindex="0"
+												class="page-link">Previous</a></li>
+                      
+                       <li class="paginate_button page-item"
+												th:each="i:${#numbers.sequence(1,totalpage)}" th:if="${i!=0}"><a
+												th:if="${i!=current}" 
+												th:href="@{/recivePage/{pageNumber}(pageNumber=${i})}"
+												aria-controls="dataTable" data-dt-idx="1" tabindex="0"
+												class="page-link" th:text="${i}"></a> <a
+												th:unless="${i!=current}" aria-controls="dataTable"
+												data-dt-idx="1" tabindex="0" class="page-link"
+						
+												th:text="${i}"></a></li>
+                      <li class="paginate_button page-item next"
+												id="dataTable_next"><a th:if="${current<totalpage}"
+												th:href="@{/recivePage/{pageNumber}(pageNumber=${current+1})}"
+												aria-controls="dataTable" data-dt-idx="7" tabindex="0"
+												class="page-link">Next</a> <a
+												th:unless="${current<totalpage}" aria-controls="dataTable"
+												data-dt-idx="7" tabindex="0" class="page-link">Next</a></li>
+                    </ul>
+                  </div>
+                </div>
+                      </div>
+                    </div>
+                    <!-- /col-md-12 -->
+                  </div>
+               
+              </div>
+
+            </div>
+           
+            
+          
+          </div>
+          
+          
+        </div><!-- End of Page Content -->
+      </section>
+      <!-- /wrapper -->
+    </section>
+     <div th:replace="fragments/IVCS_footer::IVCSfooter"></div>
+   
+    <!--footer end-->
+  </section>
+   
+  <!-- js placed at the end of the document so the pages load faster -->
+  <script th:src="@{/lib/jquery/jquery.min.js}"></script>
+
+  <script th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
+  <script class="include" type="text/javascript" th:src="@{/lib/jquery.dcjqaccordion.2.7.js}"></script>
+  <script th:src="@{/lib/jquery.scrollTo.min.js}"></script>
+   <script th:src="@{/lib/jquery.nicescroll.js}" type="text/javascript"></script>
+  <!--common script for all pages-->
+  <script th:src="@{/lib/common-scripts.js}"></script>
+  <!--script for this page-->
+
+</body>
+
+</html>

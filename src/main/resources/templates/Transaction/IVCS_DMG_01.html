@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="Dashboard">
+  <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+  <title>PROACTIVE</title>
+
+  <!-- Favicons -->
+  <link th:href="@{/img/proactive.jpg}" rel="icon">
+  <link th:href="@{/img/apple-touch-icon.png}" rel="apple-touch-icon">
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{/lib/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+  <!--external css-->
+  <link th:href="@{/lib/font-awesome/css/font-awesome.css}" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="css/zabuto_calendar.css">
+  <link rel="stylesheet" type="text/css" href="lib/gritter/css/jquery.gritter.css" />
+  <!-- Custom styles for this template -->
+  <link th:href="@{/css/style.css}" rel="stylesheet">
+  <link th:href="@{/css/style-responsive.css}" rel="stylesheet">
+  <script th:src="@{/lib/chart-master/Chart.js}"></script>
+</head>
+
+<body>
+  <section id="container">
+    <!-- **********************************************************************************************************************************************************
+        TOP BAR CONTENT & NOTIFICATIONS
+        *********************************************************************************************************************************************************** -->
+    <!--header start-->
+    <div th:replace="fragments/IVCS_header::IVCSheader"></div>
+    
+    <aside>
+    <div th:replace="fragments/IVCS_sidebar::IVCSsidebar"></div>
+    
+   
+  </aside>
+    <!--sidebar end-->
+    <!-- **********************************************************************************************************************************************************
+        MAIN CONTENT
+        *********************************************************************************************************************************************************** -->
+    <!--main content start-->
+    <section id="main-content">
+      <section class="wrapper site-min-height">
+        <h3 >Inventory Damage Transaction</h3>
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+
+
+       
+
+
+
+          <!-- Content Row -->
+          <div class="row">
+
+            <div class="card-body">
+             
+              <br>              
+              <div class="card-body" style="background-color: #ffffff;">
+                  <div class="row">
+                   
+                      <div class="content-panel">
+                      
+                      
+                           
+                         <div class="col-md-6">
+
+                          <div class="form-group row">
+                            <label style="font-weight: bold;" for="damageNo" class="col-sm-4 col-form-label">Damage No</label>
+                            <div class="col-sm-4">
+                              <input type="text" class="form-control" id="damageNo" placeholder="Damage No" value="DMG" />
+                              <br>
+                           </div>
+                          </div>
+                          <div class="form-group row">
+                            <label style="font-weight: bold;" for="wname" class="col-sm-4 col-form-label">Warehouse Name</label>
+                            <div class="col-sm-4">
+                              <select id="wname" name="wname" class="form-control" onchange="calculate()">
+                               <option th:value="null">--select one--</option>
+                                <option th:each="rlist:${warehouseList}" th:value="${rlist.id}"   th:text="${rlist.name}"></option>
+
+                              
+                              </select> 
+                           
+                           </div>
+                           </div>
+                           
+                        	 <div class="form-group row">
+														<label style="font-weight: bold;" for="stock"
+															class="col-sm-4 col-form-label">Stock Code</label>
+														<div class="col-sm-4">
+															<select id="stock" onchange="stockfill()"
+																class="form-control">
+																<option th:value='null'>--select one--</option>
+															</select>
+														</div>
+													</div>
+                          
+                      
+                       
+         
+                       
+                      </div>
+
+                      <div class="col-md-6">
+
+                         <div class="form-group row">
+                                <label style="font-weight: bold;" for="date" class="col-sm-4 col-form-label">Date</label>
+                                         <div class="col-sm-4">
+                                           <input type="date" class="form-control" id="date" placeholder="Date">
+                                       </div>  
+                                      </div>  
+                                      <br>
+                                    
+                          
+                             <div class="form-group row">
+                        <label style="font-weight: bold;" for="curqty" class="col-sm-4 col-form-label">Current Quantity</label>
+                            <div class="col-sm-4">
+                              <input type="number" class="form-control" id="curqty" placeholder="Current Quantity" readonly="readonly">
+                          </div>
+                          </div>
+                          
+                          
+                          
+                          <div class="form-group row">
+                        <label style="font-weight: bold;" for="price" class="col-sm-4 col-form-label">Price</label>
+                            <div class="col-sm-4">
+                              <input type="number" class="form-control" id="price" placeholder="Price">
+                          </div>
+                          </div>
+                          
+                           
+
+                                     
+                                
+                         
+                         		
+                      
+                          <div class="form-group row">
+                        <label style="font-weight: bold;" for="dmgqty" class="col-sm-4 col-form-label">Damage Quantity</label>
+                            <div class="col-sm-4">
+                              <input type="number" class="form-control" id="dmgqty" placeholder="Damage Quantity">
+                          </div>
+                          </div>
+                          
+                         <div class="form-group row">
+                                                     <div class="col-sm-4">
+                         </div>
+                            <div class="col-sm-4">
+                                     <input style="width: 100px;"  type="button" class="btn btn-primary" value="Add" onclick="add()" />
+                          </div>
+                          </div>
+
+
+                         
+                        
+                        </div>
+                     
+                      
+
+                        <table class="table table-hover">
+                          <thead style="background-color: rgb(206, 209, 209) ;" >
+                            <tr style="font-size: medium;font-family :'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;" >
+                              <th style="width: 200px;">Stock Code</th>
+                              <th style="width: 200px;">Stock Name</th>
+                              <th style="width: 200px;">Unit</th>                             
+                              <th style="width: 200px;text-align: right;">Current Quantity</th>
+                              <th style="width: 200px;text-align: right;">Damage Quantity</th>
+                              <th style="width: 200px;text-align: right;">Price</th>                 
+                              <th style="width: 200px;text-align: right;">Amount</th>
+                              <th class="text-center">Action</th>
+                            </tr>
+                          </thead>
+                          <tbody id="body">
+                           
+                          </tbody>
+                          <tfoot>
+                          <tr>
+								<td colspan="7"></td>
+									</tr>
+                            <tr>
+                              <th colspan="6" style="text-align:right;">Total Damage Item</th>
+                              <th style="text-align: right;" id="totalStockItem">0</th>
+                            </tr>
+                            <tr>
+                              <th colspan="6" style="text-align:right;">Total Damage Quantity</th>
+                              <th  style="text-align: right;" id="totalStockQty">0</th>
+                            </tr>
+                            <tr>
+                              
+                              <th colspan="6" style="text-align: right;">Total Damage Amount</th>
+                              <th style="text-align: right;" id="totalStockAmount">0</th>
+                            </tr>
+                            
+                           <tr>
+                             <th colspan="7" style="text-align:right;"> 
+                              <div class="col-md-6">
+                                <div class="form-group row" style="margin-right: 550px;">
+                                </div>
+                                </div>
+                                
+                               
+                            <div class="col-md-6">
+                              <div class="form-group row" style="margin-left: 230px;">
+                                <label style="font-weight: bold;" for="remark" class="col-sm-3 col-form-label">Remark</label>
+                                   <div class="col-sm-9">
+                                    <textarea id="remark" name="remark" rows="3" cols="20"></textarea>
+                                    <br>
+                                    <div class="row">
+                                      <div class="col-md-8">
+                                        <input style="width: 90px;" type="button" class="btn btn-success" value="Done" onclick="done()" />
+                                      </div>
+                                      <div class="col-md-3">
+                                        <a th:href="@{/IVCS_DMG_02}" style="width: 80px;"  class="btn btn-block btn-warning">
+                                          Back</a>
+                                      </div>
+                                    </div>          
+                                    
+                                 </div>
+                             </div>
+
+
+                            </div>
+
+                          </th>
+                          </tr>
+
+
+                          </tfoot>
+
+                    </table>
+                        <br/>
+
+                        
+
+                     
+                         
+                    </div>
+                   
+                  </div>
+                  </div>
+          </div>
+               
+              </div>
+              </div><!-- End of Page Content -->
+  </section>
+  <!-- /wrapper -->
+</section>
+    <!-- /MAIN CONTENT -->
+    <!--main content end-->
+    <!--footer start-->
+    <div th:replace="fragments/IVCS_footer::IVCSfooter"></div>
+    <!--footer end-->
+  </section>
+  <!-- js placed at the end of the document so the pages load faster -->
+   <script th:src="@{/lib/jquery/jquery.min.js}"></script>
+
+  <script th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
+  <script class="include" type="text/javascript" th:src="@{/lib/jquery.dcjqaccordion.2.7.js}"></script>
+  <script th:src="@{/lib/jquery.scrollTo.min.js}"></script>
+   <script th:src="@{/lib/jquery.nicescroll.js}" type="text/javascript"></script>
+  <!--common script for all pages-->
+  <script th:src="@{/lib/common-scripts.js}"></script>
+
+  <script>
+  
+  function calculate(){
+		var ware=document.querySelector("#wname").value;
+		
+		$(document).ready(function() {
+			var newString="<option th:value='null'>--select one--</option>";
+			$.get("/autofillwareDam",{receiveWare:ware},function(data){
+ 				$.each(data,function(index,da){
+					
+					newString=newString+`<option th:value=${da.stock.stockCode}>${da.stock.stockCode}</option>`;
+				});
+				document.querySelector("#stock").innerHTML=newString;
+			}).fail(function() {
+				alert("ERROR");
+			});
+		});
+	    }
+  
+  
+
+  
+  
+  function stockfill(){
+	  var stk=document.querySelector("#stock").value;
+	  var ware=document.querySelector("#wname").value;
+	  $(document).ready(function() {
+			$.get("/autoFillStockDam",{recstk:stk,receiveWare:ware},function(data){
+				if(data==""){
+					alert("Please Select One");
+				} 
+				document.querySelector("#curqty").value=data.qty;
+				document.querySelector("#price").value=data.price;
+			}).fail(function() {
+				alert("ERROR");
+			});
+		});
+  }
+  
+
+  
+  
+
+  function add() {
+  	var dmgNo=document.querySelector("#damageNo").value;
+  	var whCode=document.querySelector("#wname").value;
+	var stk=document.querySelector("#stock").value;
+	var receiveqty=document.querySelector("#curqty").value;
+  	var dmgqty=document.querySelector("#dmgqty").value;
+  	var price=document.querySelector("#price").value;
+	var dmgdate=document.querySelector("#date").value;
+	$(document).ready(function() {
+		var str ="";
+		var gqty=0;
+		var gtstock=0;
+		var gtotalAm=0;
+		$.get("/damageAdd", {nodamgNo:dmgNo,nowhCode:whCode,nostk:stk,noreceiveqty:receiveqty,  
+			                 nodmgqty:dmgqty,noprice:price,nodmgdate:dmgdate},
+		
+		function(data) {
+		
+			if(data==""){
+				alert("Something Wrong!!");	
+				
+				
+				
+			}
+		$.each(data,function(index,da){
+			gtstock=index+1;
+			gqty=gqty+da.damageQty;
+			gtotalAm=gtotalAm+da.subTotalAmount;
+			str=str+`
+			<tr>
+            <td style="text-align: left;">${da.stock.stockCode}</td>
+            <td style="text-align: left;">${da.stock.name}</td>
+            <td style="text-align: left;">${da.stock.unit.name}</td>
+            <td style="text-align: right;">${da.stockWarehouse.qty}</td>
+
+            <td style="text-align: right;">${da.damageQty}</td>
+            <td style="text-align: right;">${da.price}</td>
+            <td style="text-align: right;">${da.subTotalAmount}</td>
+            <td style="text-align: center;"> <button  onclick="remove(${da.stock.id})" class="btn btn-danger" type="submit"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
+          </tr> `;
+		});
+			document.querySelector("#body").innerHTML=str;
+			document.querySelector("#totalStockAmount").innerHTML=gtotalAm;
+			document.querySelector("#totalStockQty").innerHTML=gqty;
+			document.querySelector("#totalStockItem").innerHTML=gtstock;
+			document.querySelector("#dmgqty").value="";
+			document.querySelector("#curqty").value="";
+		}).fail(function() {
+			alert("No Item");
+		});
+		document.querySelector("#stock").value="STK";
+		document.querySelector("#dmgqty").value="";
+		document.querySelector("#price").value="";
+	});
+
+		
+  }
+  
+  function done(){
+	    var dmgNo=document.querySelector("#damageNo").value;
+		var rem=document.querySelector("#remark").value;
+		$(document).ready(function() {
+			$.get("/damagedone",{damageNo:dmgNo, nre:rem},function(data){
+				alert(data);
+				document.querySelector("#body").innerHTML="";
+				document.querySelector("#totalStockAmount").innerHTML="";
+				document.querySelector("#totalStockQty").innerHTML="";
+				document.querySelector("#totalStockItem").innerHTML="";
+				document.querySelector("#damageNo").value="DMG";
+				document.querySelector("#remark").value="";
+				document.querySelector("#wname").value="";
+				document.querySelector("#stock").value="";
+				document.querySelector("#date").value="";
+				document.querySelector("#curqty").value="";
+				document.querySelector("#dmgqty").value="";
+				document.querySelector("#price").value="";
+			}).fail(function() {
+				alert("ERROR");
+			});
+		});
+  }
+  
+  
+  
+  
+  
+  
+  function remove(id){
+  	var  str2="";
+  	var gqty2=0;
+		var gtstock2=0;
+		var gtotalAm2=0;
+  	 $(document).ready(function () {
+  		 $.get("/removeDamage",{i:id},function(data){  
+  			 
+   		 }).done(function(data){
+   			
+   			$.each(data,function(index,da){
+   				gtstock2=index+1;
+					gqty2=gqty2+da.damageQty;
+					gtotalAm2=gtotalAm2+da.subTotalAmount;
+  				str2=str2+`
+  				<tr>
+  			  <td style="text-align: left;">${da.stock.stockCode}</td>
+  	            <td style="text-align: left;">${da.stock.name}</td>
+  	            <td style="text-align: left;">${da.stock.unit.name}</td>
+  	            <td style="text-align: right;">${da.stockWarehouse.qty}</td>
+
+  	            <td style="text-align: right;">${da.damageQty}</td>
+  	            <td style="text-align: right;">${da.price}</td>
+  	            <td style="text-align: right;">${da.subTotalAmount}</td>
+                  <td style="text-align: center;"> <button  onclick="remove(${da.stock.id})" class="btn btn-danger" type="submit"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
+                </tr>
+   				`;
+   			 });
+   			document.querySelector("#body").innerHTML=str2;
+   			document.querySelector("#totalStockAmount").innerHTML=gtotalAm2;
+				document.querySelector("#totalStockQty").innerHTML=gqty2;
+				document.querySelector("#totalStockItem").innerHTML=gtstock2;
+   		 });
+   	 });
+  }
+ 
+  
+  
+  
+  
+  
+  
+  </script>
+</body>
+
+</html>

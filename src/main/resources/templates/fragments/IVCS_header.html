@@ -1,0 +1,33 @@
+<div th:fragment="IVCSheader">
+
+ <!--header start-->
+    <header class="header black-bg">
+      <div class="sidebar-toggle-box">
+        <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+      </div>
+     <!--logo start-->
+<a th:href="@{/IVC}" class="logo"><b>PRO<span>ACTIVE</span></b><img th:src="@{/img/3fingure.jpg}" class="img-circle" width="80"></a>
+<!--logo end-->
+ 
+<div class="top-menu">
+
+  <ul class="nav pull-right top-menu">
+    <li class="nav-item ">
+      <span class="nav-text">
+        
+        <h2 style="margin-right: 400px;"><span style="color: #4ECDC4;">Inventory Control System</span></h2>
+      </span>
+     
+    </li>
+
+   <li ><form class="logout" th:action="@{/logout}"  method="post"><input value="logout" style="color: red;"  type="submit" onclick="return confirm('Are you sure to Logout?')"></form>
+   
+   </li>
+ 
+
+     
+  </ul>
+</div>
+</header>
+
+</div>

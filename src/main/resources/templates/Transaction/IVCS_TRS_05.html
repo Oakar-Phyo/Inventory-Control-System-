@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="Dashboard">
+  <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+  <title>PROACTIVE</title>
+
+  <!-- Favicons -->
+  <link th:href="@{/img/proactive.jpg}" rel="icon">
+  <link th:href="@{/img/apple-touch-icon.png}" rel="apple-touch-icon">
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{/lib/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+  <!--external css-->
+  <link th:href="@{/lib/font-awesome/css/font-awesome.css}" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="css/zabuto_calendar.css">
+  <link rel="stylesheet" type="text/css" href="lib/gritter/css/jquery.gritter.css" />
+  <!-- Custom styles for this template -->
+  <link th:href="@{/css/style.css}" rel="stylesheet">
+  <link th:href="@{/css/style-responsive.css}" rel="stylesheet">
+  <script th:src="@{/lib/chart-master/Chart.js}"></script>
+</head>
+
+<body>
+  <section id="container">
+    <!-- **********************************************************************************************************************************************************
+        TOP BAR CONTENT & NOTIFICATIONS
+        *********************************************************************************************************************************************************** -->
+    <!--header start-->
+  <div th:replace="fragments/IVCS_header::IVCSheader"></div>
+    
+    <aside>
+    <div th:replace="fragments/IVCS_sidebar::IVCSsidebar"></div>
+    
+   
+  </aside>
+    <!--sidebar end-->
+    <!-- **********************************************************************************************************************************************************
+        MAIN CONTENT
+        *********************************************************************************************************************************************************** -->
+    <!--main content start-->
+    <section id="main-content">
+      <section class="wrapper site-min-height">
+        <h3> Warehouse Transfer View</h3>
+        <div class="container-fluid">
+
+          <!-- Content Row -->
+
+          <div class="row">
+
+            <div class="card-body">
+             
+              <br>              
+              <div class="card-body" style="background-color: #ffffff;">
+                  <div class="row">
+                   
+                      <div class="content-panel">
+                        <form th:each="l:${list}">
+                        <div class="form-row" >
+                           
+                         <div class="col-md-6">
+
+                      
+
+                          <div class="form-group row">
+                            <label style="font-weight: bold;" for="transferNo" class="col-sm-4 col-form-label">Transfer No :</label>
+                            <div class="col-sm-4">
+                            <label th:text="${l.transferNo}"></label>
+                              
+                            </div>
+                          </div>
+                          <br>
+
+                          <div class="form-group row">
+                            <label style="font-weight: bold;" for="fromWarehouseCode" class="col-sm-4 col-form-label">From Warehouse Code :</label>
+                            <div class="col-sm-4">
+                              <label th:text="${l.fromWarehouse.warehouseCode}"></label>
+                            </div>
+                          </div>
+                         
+
+                           <div class="form-group row">
+                            <label style="font-weight: bold;" for="fromWarehouseName" class="col-sm-4 col-form-label">From Warehouse Name :</label>
+                               <div class="col-sm-4">
+                                 <label th:text="${l.fromWarehouse.name}"></label>
+                             </div>
+                         </div>
+                         
+                      </div>
+</div>
+                      <div class="col-md-6">
+
+                         <div class="form-group row">
+                                <label style="font-weight: bold;" for="transferDate" class="col-sm-4 col-form-label">Transfer Date :</label>
+                                         <div class="col-sm-4">
+                                           <label th:text="${l.transferDate}"></label>
+                                       </div>  
+                                      </div>  
+                                      <br>
+
+                                      <div class="form-group row">
+                                        <label style="font-weight: bold;" for="toWarehouseCode" class="col-sm-4 col-form-label">To Warehouse Code :</label>
+                                        <div class="col-sm-4">
+                                          <label th:text="${l.toWarehouse.warehouseCode}"></label>
+                                        </div>
+                                  </div>
+                                        <div class="form-group row">
+                                          <label style="font-weight: bold;" for="toWarehouseName" class="col-sm-4 col-form-label">To Warehouse Name :</label>
+                                             <div class="col-sm-4">
+                                               <label th:text="${l.toWarehouse.name}"></label>
+                                           </div>
+                                         </div>
+                                         <div>
+														<div class="form-group row">
+															<!-- Export Excel  -->
+															<label style="font-weight: bold;" for="exchangeRate"
+															class="col-sm-4 col-form-label">
+															<a th:href="@{/IVCS_TRS_05/export/excel(no=${l.transferNo})}" class="btn  btn-primary" style="width: 120px;" id="">
+															Export Excel</a>
+																</label>
+																<div  class="col-sm-4">
+															<!-- Export PDF  -->
+															<a th:href="@{/IVCS_TRS_05/export/pdf(no=${l.transferNo})}" class="btn  btn-primary" style="width: 120px;" id="">Export
+																PDF</a>
+														</div>
+														</div>
+													</div>
+
+                                      
+                        
+                        </div>
+                      </form>
+                      
+
+                        <table class="table table-hover">
+                          <thead style="background-color: rgb(206, 209, 209) ;" >
+                            <tr style="font-size: medium;font-family :'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;" >
+                              <th style="width: 150px;">Stock Code</th>
+                              <th style="width: 150px;">Stock Name</th>
+                              <th style="width: 150px;">Unit</th>
+                              <th style="width: 150px;text-align: right;">Current Quantity</th>   
+                              <th style="width: 150px;text-align: right;">Transfer Quantity</th>                                           
+                              <th style="width: 150px;text-align: right;">Stock Price</th>                                            
+                              <th style="width: 150px;text-align: right;">Total</th>
+                            </tr>
+                          </thead>
+                          <tbody id="body">
+                            <tr th:each="l:${listAll}">
+                              <td style="text-align: left;" th:text="${l.stock.stockCode}"></td>
+                              <td style="text-align: left;" th:text="${l.stock.name}"></td>
+                              <td style="text-align: left;" th:text="${l.stock.unit.name}"></td>
+                              <td style="text-align: right;" th:text="${l.currentQty}"></td>
+                              <td style="text-align: right;" th:text="${l.transferQty}"></td>
+                              <td style="text-align: right;" th:text="${l.stock.sellprice}"></td>
+                              <td style="text-align: right;" th:text="${l.total}"></td>
+                           </tr>
+                          </tbody>
+                       
+                          
+                          
+                          
+<tfoot>
+												
+													<tr>
+														<td colspan="7"></td>
+													</tr>
+													<tr>
+														<th colspan="1" style="text-align: left;">Remark
+															</th>
+														<th style="text-align: right;" th:text="${remark}"></th>
+													</tr>
+													<tr>
+														<th colspan="1" style="text-align: left;">Total Stock
+															Item</th>
+														<th style="text-align: right;" th:text="${totalItem}"></th>
+													</tr>
+													<tr>
+														<th colspan="1" style="text-align: left;">Total Stock
+															Quantity</th>
+														<th style="text-align: right;" th:text="${totalQty}"></th>
+													</tr>
+													<tr>
+														<th colspan="1" style="text-align: left;">Total Stock
+															Amount</th>
+														<th style="text-align: right;" th:text="${totalAmt}"></th>
+													</tr>
+													<tr>
+														<th colspan="1" style="text-align: left;">
+																	<a th:href="@{/IVCS_TRS_02}" style="width: 100px;"
+																		class="btn btn-block btn-warning"> Back</a>
+														<th>
+													</tr>
+
+												
+											</tfoot>
+
+                    </table>
+                        <br/>
+
+                        
+
+                     
+                         
+                    </div>
+                   
+                  </div>
+                  </div>
+          </div>
+               
+              </div>
+              </div>
+
+          
+           
+            
+       
+          
+         <!-- End of Page Content -->
+      </section>
+      <!-- /wrapper -->
+    </section>
+            <!-- /.container-fluid -->
+    
+    <!-- /MAIN CONTENT -->
+    <!--main content end-->
+    <!--footer start-->
+    <div th:replace="fragments/IVCS_footer::IVCSfooter"></div>
+    <!--footer end-->
+  </section>
+  <!-- js placed at the end of the document so the pages load faster -->
+   <script th:src="@{/lib/jquery/jquery.min.js}"></script>
+
+  <script th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
+  <script class="include" type="text/javascript" th:src="@{/lib/jquery.dcjqaccordion.2.7.js}"></script>
+  <script th:src="@{/lib/jquery.scrollTo.min.js}"></script>
+   <script th:src="@{/lib/jquery.nicescroll.js}" type="text/javascript"></script>
+  <!--common script for all pages-->
+  <script th:src="@{/lib/common-scripts.js}"></script>
+  <script>
+    let data="";
+    let amount=0;
+    let qty=0;
+    let tamount=0;
+    function calculate(){
+      var v= document.querySelector("#item").value;
+      switch (v){
+
+        case "1":
+           amount=amount+1
+           qty=qty+5
+           tamount=tamount+1000
+           data=data+`
+           <tr>
+            <td>
+              <input style="width: 100px;" type="text" class="form-control" id="unit" placeholder="ST001" readonly="true"></td>
+                                <td >
+                     <input style="width: 100px;" type="text" class="form-control" id="unit" placeholder="Coffee" readonly="true">
+                                      
+                            </td>
+                                
+            <td >
+                     <input style="width: 100px;" type="text" class="form-control" id="unit" placeholder="Pieces" readonly="true">
+                                      
+                            </td>
+                            <td >
+                              <input style="width: 100px;" type="text" class="form-control" id="rQty" placeholder="20" readonly="true">                                      
+                            </td>
+                            <td>
+              <input  style="width: 100px;" type="0" class="form-control" name="qty"
+                                placeholder="Quantity">
+              </td>
+              <td >
+                <input style="width: 100px;" type="text" class="form-control" id="stockPrice" placeholder="3000" readonly="true">
+                                      
+                            </td>
+           
+              
+            <td>1000</td>
+            <td >      
+              <div class="row">
+                  <div class="col-md-6">
+                    <input style="width: 70px;"  type="button" class="btn btn-primary" value="Update" onclick="calculate()" />
+                                  </div>
+                                  <div class="col-md-6">
+                                    <button style="width: 60px;"  type="reset" class="btn btn-danger" value="Cancel">Cancel</button>
+                                  </div>
+                                </div>          
+              
+              
+            
+          </td>
+           
+            
+           
+             </tr>`;
+             break;
+             case "2":
+           amount=amount+1
+           qty=qty+10
+           tamount=tamount+5000
+           data=data+`
+           <tr>
+            <td style="text-align: center;">2</td>
+            <td>W001</td>
+            <td>ST002</td>
+            <td>SP001</td>           
+            <td>MMK</td>
+            <td>1</td>
+            <td>5000</td>
+           
+            <td>
+              <span class="minus"><i class="fa fa-fw fa-minus"></i></span>
+              10
+              <span class="plus"><i class="fa fa-fw fa-plus"></i></span>
+              </td>
+            <td>2.2.2020</td>
+             <td>Goods</td>
+             </tr>`;
+             break;
+             case "3":
+           amount=amount+1
+           qty=qty+15
+           tamount=tamount+150000
+           data=data+`
+           <tr>
+            <td style="text-align: center;">3</td>
+            <td>W002</td>
+            <td>ST003</td>
+            <td>SP002</td>           
+            <td>USD</td>
+            <td>1350</td>
+            <td>150000</td>
+           
+            <td>
+              <span class="minus"><i class="fa fa-fw fa-minus"></i></span>
+              15
+              <span class="plus"><i class="fa fa-fw fa-plus"></i></span>
+              </td>
+            <td>2.2.2020</td>
+             <td>Goods</td>
+             </tr>`;
+             break;
+             default:
+               alert("No Item");
+               break;
+            }
+            document.querySelector("#body").innerHTML=data;
+            document.querySelector("#tvalue").innerHTML=amount;
+            document.querySelector("#qty").innerHTML=qty;
+            document.querySelector("#tamount").innerHTML=tamount;
+            
+            
+
+
+
+      }
+    
+
+
+
+  </script>
+
+</body>
+
+</html>
